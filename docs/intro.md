@@ -1,47 +1,30 @@
 ---
+sidebar_label: About
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Intro
 
-Let's discover **Docusaurus in less than 5 minutes**.
+TBC
 
-## Getting Started
+# Name
 
-Get started by **creating a new site**.
+***Why is the project called DraigDeg?***
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+The name is Welsh. 
 
-### What you'll need
+**Draig** is Welsh for Dragon, and is pronounced like *"Dry"* followed by a hard *"G"* (as at the end of "Bog"). IPA: /d̪ˠɾˠaɟ/
 
-- [Node.js](https://nodejs.org/en/download/) version 18.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+**Deg** is Welsh for Ten, and is pronounced with a longer *"e"* to rhyme with *"Flair"*. IPA: /dɛɡ/
 
-## Generate a new site
 
-Generate a new Docusaurus site using the **classic template**.
+It kind of means *"The Tenth Dragon"* or *"Dragon Ten"* - not quite literally in idiomatic Welsh, but close enough. 
 
-The classic template will automatically be added to your project after you run the command:
+***OK, but Why?***
 
-```bash
-npm init docusaurus@latest my-website classic
-```
+The original impetus for this project is a collaboration with a Vietnamese academic institute for monitoring salinity in the Mekong Delta. 
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+The Mekong Delta (Vietnamese: Đồng bằng Sông Cửu Long) literally translates as **Nine Dragon River Delta**. 
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+As it is customary for anything exported from Wales to display some dragon iconography, it was fiting that our electronics PCB, featuring a dragon, would make it the 10th.
 
-## Start your site
-
-Run the development server:
-
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.

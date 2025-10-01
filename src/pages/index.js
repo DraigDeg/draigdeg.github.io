@@ -19,8 +19,8 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
+            to="/docs/controller/controller_overview">
+            Controller Overview
           </Link>
         </div>
       </div>
@@ -35,8 +35,8 @@ export default function Home() {
       title={`Hello from ${siteConfig.title}`}
       description="Description will go into a meta tag in <head />">
       <HomepageHeader />
-      <main>
-        <HomepageFeatures />
+      <main style={{textAlign: "center"}}>
+        <img src="img/mockup.jpg" />
       </main>
     </Layout>
   );
