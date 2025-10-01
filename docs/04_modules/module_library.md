@@ -115,22 +115,26 @@ Above the `setup()` function create a function of your own...
 It must be void and with no arguments. 
 
 ```CPP
+/**
+ * Read All - registered as a callback for protocol command "RA0"
+ * Reads a single millivolt reading from pin A0
+ */
 void readAll() {
   module.invalidate(); // clear the values
+
   Channel* ch = module.getChannel(1);
+
   if (ch) {
-      // Read SHT
-      sensors_event_t rh, temp;
-      bool ok = sht4.getEvent(&rh, &temp);// populate temp and humidity objects with fresh data
-      Serial.print("Reading OK ");
-      Serial.println(ok);
-      if(ok){
-        Serial.println(temp.temperature);
-        Serial.println(rh.relative_humidity);
-        ch->updateMeasurement(0, temp.temperature);
-        ch->updateMeasurement(1, rh.relative_humidity);
-      }
-    }
+    // do whatever you need to do to get sensor readings
+    // here's our example for a single voltage
+    pinMode(A0, INPUT); // this should go in setup() really;
+    int raw = analogRead(A0);
+    float millivolts = (raw / 1023.0) * 3300.0;
+    Serial.println(millivolts);
+    
+    // update that measurement for this channel
+    ch->updateMeasurement(0, millivolts);
+  }
 }
 ```
 
@@ -147,7 +151,7 @@ module.registerCollectMeasurements(readAll);
 
 **7. Service the UART**
 
-All that's required now is to service the UART in the main loop
+All that's required now is to service the UART in the main loop. 
 
 ```CPP
 void loop() {
@@ -158,4 +162,58 @@ void loop() {
 }
 ```
 
-And the library will take care of itself!
+And the library will take care of the wire protocol on the UART you gave it. 
+
+
+# Example
+
+There's an example here:
+
+https://github.com/DraigDeg/draigdeg-module-library/blob/v1.0.0/examples/SimpleVoltageModule/SimpleVoltageModule.ino
+
+
+
+
+
+# Swap serial ports for easy testing...
+
+To make it easier to prototype/test/debug with your module you can flip the config to make it easier.
+
+* We always need one UART (serial port) to link with the controller.
+* Often a microcontroller will have more than one UART - a USB-one for the serial monitor and a hardware one with RX and TX pins.
+* In our example our microcontroller gives us `Serial` as the monitor and `Serial1` as the controller interface and we set it up like this:
+```CPP
+Serial1.begin(9600); // controller interface
+Serial.begin(9600); // monitor E.g. USB port
+
+module.begin(Serial1); // give the controller interface to the library module
+module.debug(Serial);  // send debug messages to the monitor
+```
+
+* But what if we want to use the monitor to send commands? Just use the monitor port for everything
+```CPP
+Serial.begin(9600); // monitor E.g. USB port
+
+module.begin(Serial); // using the monitor
+module.debug(Serial);
+```
+* Now the console/monitor can be used to send the commands that the controller will ultimately send.
+* This won't work plugged into a controller, but you can get going without a controller like this. 
+* in your serial monitor you can type the following commands to ping, describe and read the module, just like a controller. You'll press enter, the controller will send a `'\n'`
+```
+?1,PING,TEST<enter>
+?1,DA0<enter>
+?1,RA0<enter>
+```
+* Tip: You may need to set the monitor program to do local echo... E.g. `monitor_echo = yes` in `platformio.ini`
+* You could go one step further and make a `#define` at the top to easily go from test to deployment
+```CPP
+#define COMMAND_UART Serial1
+```
+* and
+```CPP
+Serial.begin(9600); // monitor E.g. USB port
+COMMAND_UART.begin(9600);
+module.begin(COMMAND_UART); // using the monitor
+module.debug(Serial);
+```
